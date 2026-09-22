@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SmartQR Profile</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      min-height: 100vh;
+      padding: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .profile {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 30px;
+      border-radius: 25px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: bold;
+      color: #2563eb;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      font-size: 30px;
+      margin-bottom: 15px;
+    }
+
+    .info {
+      color: #555;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+
+    a {
+      display: block;
+      text-decoration: none;
+      color: white;
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 12px;
+      font-weight: bold;
+    }
+
+    .call {
+      background: #2563eb;
+    }
+
+    .whatsapp {
+      background: #22c55e;
+    }
+
+    .location {
+      background: #f97316;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="profile">
+
+  <div class="logo">
+    ⚡ SmartQR
+  </div>
+
+  <h1 id="name">Loading...</h1>
+
+  <div class="info" id="info">
+    Loading profile...
+  </div>
+
+  <a id="call" class="call">
+    📞 Call
+  </a>
+
+  <a id="whatsapp" class="whatsapp">
+    💬 WhatsApp
+  </a>
+
+  <a id="location" class="location">
+    📍 Location
+  </a>
+
+</div>
+
+<script>
+
+  const data = new URLSearchParams(window.location.search);
+
+  const name = data.get("name") || "SmartQR User";
+  const phone = data.get("phone") || "";
+  const whatsapp = data.get("whatsapp") || "";
+  const address = data.get("address") || "";
+  const services = data.get("services") || "";
+
+  document.getElementById("name").innerText = name;
+
+  document.getElementById("info").innerText =
+    "📞 " + phone +
+    "\n\n📍 " + address +
+    "\n\n🛠️ Services\n" + services;
+
+  document.getElementById("call").href =
+    "tel:" + phone;
+
+  document.getElementById("whatsapp").href =
+    "https://wa.me/" + whatsapp;
+
+  document.getElementById("location").href =
+    "https://www.google.com/maps/search/?api=1&query="
+    + encodeURIComponent(address);
+
+</script>
+
+</body>
+</html>

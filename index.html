@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>SmartQR</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f2f5f9;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2563eb;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 25px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    textarea {
+      height: 90px;
+      resize: none;
+    }
+
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      border: none;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    #result {
+      display: none;
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    #qrcode {
+      margin: 20px auto;
+      width: 128px;
+    }
+
+    .profile-name {
+      font-size: 27px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .profile-info {
+      color: #555;
+      line-height: 1.8;
+      white-space: pre-line;
+    }
+
+    .download {
+      background: #16a34a;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>SmartQR</h1>
+  <p class="subtitle">One QR. Everything You Need.</p>
+
+  <div class="card">
+
+    <label>Name</label>
+    <input id="name" type="text" placeholder="Enter your name">
+
+    <label>Phone</label>
+    <input id="phone" type="tel" placeholder="Enter phone number">
+
+    <label>WhatsApp</label>
+    <input id="whatsapp" type="tel" placeholder="Enter WhatsApp number">
+
+    <label>Address</label>
+    <input id="address" type="text" placeholder="Enter address">
+
+    <label>Services</label>
+    <textarea id="services"
+      placeholder="Example: Web Design, Repairs, Consulting"></textarea>
+
+    <button onclick="createQR()">
+      🚀 Create My QR
+    </button>
+
+    <div id="result">
+
+      <div class="profile-name" id="showName"></div>
+
+      <div class="profile-info" id="showInfo"></div>
+
+      <h3 style="margin-top:25px;">
+        📱 Scan This QR
+      </h3>
+
+      <div id="qrcode"></div>
+
+      <button class="download" onclick="downloadQR()">
+        ⬇️ Download QR
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+function createQR() {
+
+  const name = document.getElementById("name").value;
+  const phone = document.getElementById("phone").value;
+  const whatsapp = document.getElementById("whatsapp").value;
+  const address = document.getElementById("address").value;
+  const services = document.getElementById("services").value;
+
+  if (name === "") {
+    alert("Please enter your name");
+    return;
+  }
+
+  document.getElementById("showName").innerText = name;
+
+  document.getElementById("showInfo").innerText =
+    "📞 " + phone +
+    "\n📍 " + address +
+    "\n\n🛠️ Services:\n" + services;
+
+  document.getElementById("qrcode").innerHTML = "";
+
+  /*
+    Temporary QR data.
+    Next step lo actual online profile URL
+    QR lo store chestham.
+  */
+
+  const qrData =
+    "Name: " + name +
+    "\nPhone: " + phone +
+    "\nWhatsApp: " + whatsapp +
+    "\nAddress: " + address +
+    "\nServices: " + services;
+
+  new QRCode(document.getElementById("qrcode"), {
+    text: qrData,
+    width: 180,
+    height: 180
+  });
+
+  document.getElementById("result").style.display = "block";
+}
+
+
+function downloadQR() {
+
+  const qrImage =
+    document.querySelector("#qrcode img");
+
+  if (!qrImage) {
+    alert("Please create QR first");
+    return;
+  }
+
+  const link = document.createElement("a");
+
+  link.href = qrImage.src;
+  link.download = "SmartQR.png";
+
+  link.click();
+}
+
+</script>
+
+</body>
+</html>
