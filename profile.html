@@ -15,50 +15,73 @@
     }
 
     body {
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
       min-height: 100vh;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
       padding: 25px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
     }
 
-    .profile {
-      width: 100%;
+    .card {
       max-width: 430px;
+      margin: auto;
       background: white;
-      padding: 30px;
       border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    .cover {
+      height: 130px;
+      background: linear-gradient(135deg,#2563eb,#9333ea);
+    }
+
+    .content {
       text-align: center;
-      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      padding: 0 25px 30px;
+    }
+
+    .photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      margin-top: -55px;
+      background: #eee;
     }
 
     .logo {
-      font-size: 18px;
-      font-weight: bold;
-      color: #2563eb;
-      margin-bottom: 25px;
+      width: 55px;
+      height: 55px;
+      object-fit: contain;
+      margin: 12px auto;
+      display: block;
     }
 
     h1 {
-      font-size: 30px;
+      font-size: 28px;
+      margin: 8px 0;
+    }
+
+    .business {
+      color: #2563eb;
+      font-weight: bold;
       margin-bottom: 15px;
     }
 
     .info {
       color: #555;
-      line-height: 1.8;
-      margin-bottom: 20px;
+      line-height: 1.7;
       white-space: pre-line;
+      margin-bottom: 20px;
     }
 
-    a {
+    .btn {
       display: block;
-      text-decoration: none;
-      color: white;
       padding: 14px;
-      margin-top: 12px;
+      margin-top: 10px;
       border-radius: 12px;
+      color: white;
+      text-decoration: none;
       font-weight: bold;
     }
 
@@ -73,63 +96,125 @@
     .location {
       background: #f97316;
     }
+
+    .services {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f3f4f6;
+      border-radius: 12px;
+      text-align: left;
+    }
+
+    .brand {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 20px;
+    }
   </style>
 </head>
 
 <body>
 
-<div class="profile">
+<div class="card">
 
-  <div class="logo">
-    ⚡ SmartQR
+  <div class="cover"></div>
+
+  <div class="content">
+
+    <img id="photo" class="photo" src="https://via.placeholder.com/110">
+
+    <img id="logo" class="logo" src="https://via.placeholder.com/55">
+
+    <h1 id="name">Loading...</h1>
+
+    <div id="business" class="business"></div>
+
+    <div id="info" class="info">
+      Loading...
+    </div>
+
+    <div class="services">
+      <b>🛠️ Services</b>
+      <p id="services" style="margin-top:8px;"></p>
+    </div>
+
+    <a id="call" class="btn call">📞 Call</a>
+
+    <a id="whatsapp" class="btn whatsapp">💬 WhatsApp</a>
+
+    <a id="location" class="btn location">📍 Location</a>
+
+    <div class="brand">
+      Powered by SmartQR
+    </div>
+
   </div>
-
-  <h1 id="name">Loading...</h1>
-
-  <div class="info" id="info">
-    Loading profile...
-  </div>
-
-  <a id="call" class="call">
-    📞 Call
-  </a>
-
-  <a id="whatsapp" class="whatsapp">
-    💬 WhatsApp
-  </a>
-
-  <a id="location" class="location">
-    📍 Location
-  </a>
 
 </div>
 
 <script>
 
-  const data = new URLSearchParams(window.location.search);
+const data = new URLSearchParams(window.location.search);
 
-  const name = data.get("name") || "SmartQR User";
-  const phone = data.get("phone") || "";
-  const whatsapp = data.get("whatsapp") || "";
-  const address = data.get("address") || "";
-  const services = data.get("services") || "";
+const name =
+  data.get("name") || "SmartQR User";
 
-  document.getElementById("name").innerText = name;
+const phone =
+  data.get("phone") || "";
 
-  document.getElementById("info").innerText =
-    "📞 " + phone +
-    "\n\n📍 " + address +
-    "\n\n🛠️ Services\n" + services;
+const whatsapp =
+  data.get("whatsapp") || "";
 
-  document.getElementById("call").href =
-    "tel:" + phone;
+const address =
+  data.get("address") || "";
 
-  document.getElementById("whatsapp").href =
-    "https://wa.me/" + whatsapp;
+const service =
+  data.get("services") || "";
 
-  document.getElementById("location").href =
-    "https://www.google.com/maps/search/?api=1&query="
-    + encodeURIComponent(address);
+const business =
+  data.get("business") || "";
+
+const photo =
+  data.get("photo");
+
+const logo =
+  data.get("logo");
+
+
+document.getElementById("name").innerText = name;
+
+document.getElementById("business").innerText =
+  business;
+
+document.getElementById("info").innerText =
+  "📞 " + phone +
+  "\n\n📍 " + address;
+
+document.getElementById("services").innerText =
+  service;
+
+
+document.getElementById("call").href =
+  "tel:" + phone;
+
+
+document.getElementById("whatsapp").href =
+  "https://wa.me/" + whatsapp;
+
+
+document.getElementById("location").href =
+  "https://www.google.com/maps/search/?api=1&query="
+  + encodeURIComponent(address);
+
+
+if (photo) {
+  document.getElementById("photo").src = photo;
+}
+
+if (logo) {
+  document.getElementById("logo").src = logo;
+}
 
 </script>
 
