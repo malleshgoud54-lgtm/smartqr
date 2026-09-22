@@ -166,17 +166,31 @@
 
 function createQR() {
 
-  const name = document.getElementById("name").value;
-  const phone = document.getElementById("phone").value;
-  const whatsapp = document.getElementById("whatsapp").value;
-  const address = document.getElementById("address").value;
-  const services = document.getElementById("services").value;
+  const name = document.getElementById("name").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const whatsapp = document.getElementById("whatsapp").value.trim();
+  const address = document.getElementById("address").value.trim();
+  const services = document.getElementById("services").value.trim();
 
   if (name === "") {
     alert("Please enter your name");
     return;
   }
 
+  // Your GitHub Pages website URL
+  const baseURL =
+    window.location.origin + window.location.pathname.replace("index.html", "");
+
+  const profileURL =
+    baseURL +
+    "profile.html?" +
+    "name=" + encodeURIComponent(name) +
+    "&phone=" + encodeURIComponent(phone) +
+    "&whatsapp=" + encodeURIComponent(whatsapp) +
+    "&address=" + encodeURIComponent(address) +
+    "&services=" + encodeURIComponent(services);
+
+  // Show profile preview
   document.getElementById("showName").innerText = name;
 
   document.getElementById("showInfo").innerText =
@@ -184,28 +198,20 @@ function createQR() {
     "\n📍 " + address +
     "\n\n🛠️ Services:\n" + services;
 
+  // Clear old QR
   document.getElementById("qrcode").innerHTML = "";
 
-  /*
-    Temporary QR data.
-    Next step lo actual online profile URL
-    QR lo store chestham.
-  */
-
-  const qrData =
-    "Name: " + name +
-    "\nPhone: " + phone +
-    "\nWhatsApp: " + whatsapp +
-    "\nAddress: " + address +
-    "\nServices: " + services;
-
+  // Create QR
   new QRCode(document.getElementById("qrcode"), {
-    text: qrData,
-    width: 180,
-    height: 180
+    text: profileURL,
+    width: 200,
+    height: 200
   });
 
   document.getElementById("result").style.display = "block";
+
+  // Save URL for sharing
+  window.smartQRProfileURL = profileURL;
 }
 
 
@@ -227,6 +233,32 @@ function downloadQR() {
   link.click();
 }
 
+
+function shareProfile() {
+
+  if (!window.smartQRProfileURL) {
+    alert("Please create your QR first");
+    return;
+  }
+
+  if (navigator.share) {
+
+    navigator.share({
+      title: "My SmartQR Profile",
+      text: "Check my profile",
+      url: window.smartQRProfileURL
+    });
+
+  } else {
+
+    navigator.clipboard.writeText(
+      window.smartQRProfileURL
+    );
+
+    alert("Profile link copied!");
+
+  }
+}
 </script>
 
 </body>
