@@ -133,6 +133,11 @@
     <input id="address" type="text" placeholder="Enter address">
 
     <label>Services</label>
+<label>Profile Photo</label>
+<input id="photo" type="file" accept="image/*">
+
+<label>Business Logo</label>
+<input id="logo" type="file" accept="image/*">
     <textarea id="services"
       placeholder="Example: Web Design, Repairs, Consulting"></textarea>
 
@@ -166,7 +171,23 @@
 
 <script>
 
-function createQR() {
+function createQR(const photoFile =
+  document.getElementById("photo").files[0];
+
+const logoFile =
+  document.getElementById("logo").files[0];
+
+let photoURL = "";
+let logoURL = "";
+
+if (photoFile) {
+  photoURL = URL.createObjectURL(photoFile);
+}
+
+if (logoFile) {
+  logoURL = URL.createObjectURL(logoFile);
+}
+) {
 
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
